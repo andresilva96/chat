@@ -18,7 +18,7 @@
                             <div class="overflow-auto list-group" style="height: 560px">
                             </div>
 
-                            <form method="POST" action="{{route('home')}}">
+                            <form id="chat-form" method="POST" action="{{route('home')}}">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" id="to" name="to" class="form-control" placeholder="ID do Usuário" required>
@@ -43,11 +43,23 @@
 @if(Auth::check())
 <script src="{{ asset('/js/app.js') }}"></script>
 <script>
+    $("#chat-form").on('submit', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(data) {
+                alert('msg temporarioa, inserido com sucesso');
+            }
+        });
+    });
+
     user_id = {{Auth::id()}}
     Echo.private('message.received.'+user_id)
-        .listen('Chat.SendMessage', e => {
-            console.log(e)
-        })
+    .listen('Chat.SendMessage', e => {
+        console.log(e)
+    })
 </script>
 @endif
 @endpush
