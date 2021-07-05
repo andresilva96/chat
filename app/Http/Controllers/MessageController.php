@@ -17,7 +17,7 @@ class MessageController extends Controller
             $message->from = Auth::id();
             $message->to = $request->to;
             $message->content = $request->content;
-
+            $message->save();
             Event::dispatch(new SendMessage($message, $request->to));
             return redirect()->back();
         }

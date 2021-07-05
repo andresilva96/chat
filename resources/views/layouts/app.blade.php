@@ -79,15 +79,6 @@
             @yield('content')
         </main>
     </div>
-
-    @if(Auth::check())
-        <script src="{{ asset('/js/app.js') }}"></script>
-        <script>
-            Echo.channel('message.received')
-                .listen('Chat.SendMessage', e => {
-                    console.log(e)
-                })
-        </script>
-    @endif
+    @stack('scripts')
 </body>
 </html>
