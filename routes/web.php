@@ -20,3 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/fire', function () {
+    event(new \App\Events\Chat\SendMessage());
+    return 'ok';
+});
