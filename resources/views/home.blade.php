@@ -18,7 +18,7 @@
                             <div class="overflow-auto list-group" style="height: 560px">
                             </div>
 
-                            <form id="chat-form" method="POST" action="{{route('home')}}">
+                            <form id="chat-form" method="POST" action="{{route('message')}}">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" id="to" name="to" class="form-control" placeholder="ID do Usuário" required>
@@ -41,11 +41,17 @@
 
 @push('scripts')
 @if(Auth::check())
+<script>
+    var token = 'Bearer {{Auth::user()->api_token}}';
+</script>
 <script src="{{ asset('/js/app.js') }}"></script>
 <script>
     $("#chat-form").on('submit', function(e){
         e.preventDefault();
         $.ajax({
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", token);
+            },
             type: 'POST',
             url: $(this).attr('action'),
             data: $(this).serialize(),
@@ -56,6 +62,7 @@
     });
 
     user_id = {{Auth::id()}}
+
     Echo.private('message.received.'+user_id)
     .listen('Chat.SendMessage', e => {
         console.log(e)

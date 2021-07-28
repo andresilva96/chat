@@ -10,17 +10,19 @@ use Illuminate\Support\Facades\Event;
 
 class MessageController extends Controller
 {
-    public function index(Request $request, $id = null)
+    public function index()
     {
-        if ($request->all()) {
-            $message = new Message();
-            $message->from = Auth::id();
-            $message->to = $request->to;
-            $message->content = $request->content;
-            $message->save();
-            Event::dispatch(new SendMessage($message, $request->to));
-            return redirect()->back();
-        }
         return view('home');
+    }
+
+    public function send(Request $request)
+    {
+        $message = new Message();
+        $message->from = Auth::id();
+        $message->to = $request->to;
+        $message->content = $request->content;
+        $message->save();
+        Event::dispatch(new SendMessage($message, $request->to));
+        return redirect()->back();
     }
 }

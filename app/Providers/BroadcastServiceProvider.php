@@ -15,8 +15,8 @@ class BroadcastServiceProvider extends ServiceProvider
     public function boot()
     {
         // fix error 403 if uncomment the line bellow
-        // Broadcast::routes(['middleware' => ['auth']]);
-        Broadcast::routes();
+        Broadcast::routes(['middleware' => ['auth:api']]);
+        // Broadcast::routes();
 
         require base_path('routes/channels.php');
     }

@@ -20,5 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::match(['get', 'post'], '/home', 'App\Http\Controllers\MessageController@index')->name('home');
+    Route::get('/home', 'App\Http\Controllers\MessageController@index')->name('home');
 });
